@@ -1,44 +1,44 @@
 const std = @import("std");
-const Allocator = std.mem.Allocator;
-const List = std.ArrayList;
-const Map = std.AutoHashMap;
-const StrMap = std.StringHashMap;
-const BitSet = std.DynamicBitSet;
-const Str = []const u8;
-
-const util = @import("util.zig");
-const gpa = util.gpa;
-
 const data = @embedFile("../data/day01.txt");
 
 pub fn main() !void {
+    var iter = split(u8, data, "\n");
+    var line = iter.next();
+    var previousValue = try parseInt(u32, line.?, 10);
+    var totalUppages: u32 = 0;
+    while (line != null and !std.mem.eql(u8, line.?, "")) : (line = iter.next()) {
+        const num = try parseInt(u32, line.?, 10);
+        if (previousValue < num) {
+            totalUppages += 1;
+        }
+        previousValue = num;
+    }
+    std.log.info("Day 1, Problem 1: {d}", .{totalUppages});
 
+    var iter2 = split(u8, data, "\n");
+    var line2 = iter2.next();
+    const num1 = try parseInt(u32, line2.?, 10);
+    line2 = iter2.next().?;
+    var num2 = try parseInt(u32, line2.?, 10);
+    line2 = iter2.next().?;
+    var num3 = try parseInt(u32, line2.?, 10);
+
+    var previousWindowedValue = num1 + num2 + num3;
+    var totalWindowedUppages: u32 = 0;
+
+    while (line2 != null and !std.mem.eql(u8, line2.?, "")) : (line2 = iter2.next()) {
+        const num4 = try parseInt(u32, line2.?, 10);
+        const newWindowedValue = num2 + num3 + num4;
+        if (previousWindowedValue < newWindowedValue) {
+            totalWindowedUppages += 1;
+        }
+        previousWindowedValue = newWindowedValue;
+        num2 = num3;
+        num3 = num4;
+    }
+    std.log.info("Day 1, Problem 2: {d}", .{totalWindowedUppages});
 }
 
 // Useful stdlib functions
-const tokenize = std.mem.tokenize;
 const split = std.mem.split;
-const indexOf = std.mem.indexOfScalar;
-const indexOfAny = std.mem.indexOfAny;
-const indexOfStr = std.mem.indexOfPosLinear;
-const lastIndexOf = std.mem.lastIndexOfScalar;
-const lastIndexOfAny = std.mem.lastIndexOfAny;
-const lastIndexOfStr = std.mem.lastIndexOfLinear;
-const trim = std.mem.trim;
-const sliceMin = std.mem.min;
-const sliceMax = std.mem.max;
-
 const parseInt = std.fmt.parseInt;
-const parseFloat = std.fmt.parseFloat;
-
-const min = std.math.min;
-const min3 = std.math.min3;
-const max = std.math.max;
-const max3 = std.math.max3;
-
-const print = std.debug.print;
-const assert = std.debug.assert;
-
-const sort = std.sort.sort;
-const asc = std.sort.asc;
-const desc = std.sort.desc;
