@@ -6,7 +6,7 @@ IN: aoc2021.day02
 <PRIVATE
 
 : data-lines ( -- lines )
-    "/Users/dlg/dev/zig/Zig-AoC-Template/data/day02.txt"
+    "/Users/dlg/dev/aoc-2021/data/day02.txt"
     utf8 file-lines ;
 
 : lex-command ( string -- command-array-strings )
